@@ -3,6 +3,8 @@ import config
 import time
 import os
 import time
+import random
+from datetime import datetime
 
 def bot_login():
         print ("Logging in...")
@@ -10,7 +12,7 @@ def bot_login():
                         password = config.password,
                         client_id = config.client_id,
                         client_secret = config.client_secret,
-                        user_agent = "Worms amos yee bot v0.1")
+                        user_agent = "Worms amos yee bot v0.2")
         print("Log in successful!")
         return r
 
@@ -36,10 +38,12 @@ def run_bot(r, replied_comments_id):
         time.sleep(10)
 
 def prepare_reply(r):
-        s = str("🎉 ** RESET THE COUNTER!!! ** 🎉\n\n" +
-        "It has been **" + get_time_since_last_mention(r) + "** since we heard of Amos Yee \n\n" +
-        "Last mentioned by " + get_last_mention(r).author.name + " " +
-        "[here](" + get_last_mention(r).permalink + ")")
+        s = str("🎉 **RESET THE COUNTER!!!** 🎉\n\n" +
+        "It has been *" + get_prefix() + "* **" + get_time_since_last_mention(r) + "** since we've had an intellectual discussion about Amos Yee! \n\n" +
+        "Last mentioned by " + get_last_mention(r).author.name + " on **" + datetime.utcfromtimestamp(get_last_mention(r).created_utc).strftime('%d %b %y') + "**: " +
+        "[" + get_last_mention(r).submission.title + "](" + get_last_mention(r).permalink + ")" + "\n\n" +
+        "***\n\n" +
+        "Version 0.2 by Worms_sg")
 
         return s
 
@@ -52,6 +56,13 @@ def get_replied_comments():
                         replied_comments_id = replied_comments_id.split("\n")
 
         return replied_comments_id
+
+def get_prefix():
+		with open("prefix.txt") as f:
+				prefixes = f.read()
+				prefixes = prefixes.split("\n")
+		return random.choice(prefixes)
+
 
 def get_last_mention(r):
         return r.comment(get_replied_comments()[-2])
@@ -68,11 +79,8 @@ def get_time_since_last_mention(r):
             
         elif(time_difference>60*2):
                 return(str(int(time_difference/60)) + " minutes")
-        else
+        else:
         		return (str(time_difference) + " seconds")
-
-
-
 
 r = bot_login()
 while True:
