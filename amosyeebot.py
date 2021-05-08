@@ -12,14 +12,14 @@ def bot_login():
                         password = config.password,
                         client_id = config.client_id,
                         client_secret = config.client_secret,
-                        user_agent = "Worms amos yee bot v0.2")
+                        user_agent = "Worms amos yee bot v0.3")
         print("Log in successful!")
         return r
 
 def run_bot(r, replied_comments_id):
         print("Retrieving last 25 comments")
-        for comment in r.subreddit('test').comments(limit = 25):
-                if (("amos yee" in comment.body or "Amos yee" in comment.body or "Amos Yee" in comment.body) and comment.id not in replied_comments_id and not comment.author == r.user.me()):
+        for comment in r.subreddit('test').comments(limit = 10):
+                if (("amos yee" in comment.body or "Amos yee" in comment.body or "Amos Yee" in comment.body) and comment.id not in replied_comments_id and not comment.author == r.user.me() and not "bot" in comment.author.name):
                         print("found text")
 
                         if (len(get_replied_comments())<2):
@@ -43,7 +43,7 @@ def prepare_reply(r):
         "Last mentioned by " + get_last_mention(r).author.name + " on **" + datetime.utcfromtimestamp(get_last_mention(r).created_utc).strftime('%d %b %y') + "**: " +
         "[" + get_last_mention(r).submission.title + "](" + get_last_mention(r).permalink + ")" + "\n\n" +
         "***\n\n" +
-        "Version 0.2 by Worms_sg")
+        "[v0.3](" + "https://github.com/Wormsblink/amos_yee_bot" + ") by Worms_sg | PM AmosYee_bot if bot is down")
 
         return s
 
