@@ -12,12 +12,13 @@ def bot_login():
                         password = config.password,
                         client_id = config.client_id,
                         client_secret = config.client_secret,
-                        user_agent = "Worms amos yee bot v0.4")
+                        user_agent = "Worms amos yee bot v0.5")
         print("Log in successful!")
+        print(datetime.now().strftime('%d %b %y %H:%M:%S'))
         return r
 
 def run_bot(r, replied_comments_id):
-        print("Retrieving last 25 comments")
+        #print("Retrieving last 25 comments")
         for comment in r.subreddit('test').comments(limit = 25):
                 if (("amos yee" in comment.body or "Amos yee" in comment.body or "Amos Yee" in comment.body) and comment.id not in replied_comments_id and not comment.author == r.user.me() and not "bot" in comment.author.name):
                         print("found matching text")
@@ -35,7 +36,7 @@ def run_bot(r, replied_comments_id):
                                 f.write(comment.id + "\n")
                                 print("Recorded reply to comment id " + comment.id)
 
-        print ("Sleeping for 10 seconds")
+        #print ("Sleeping for 10 seconds")
         time.sleep(10)
 
 def prepare_reply(r):
@@ -62,7 +63,7 @@ def prepare_reply(r):
         "Last mentioned by " + last_mention_author + " on **" + last_mention_date + "**: " +
         "[" + last_mention_title + "](" + last_mention_link + ")" + "\n\n" +
         "***\n\n" +
-        "[v0.4](" + "https://github.com/Wormsblink/amos_yee_bot" + ") by Worms_sg and hosted on PythonAnywhere | PM AmosYee_bot if bot is down")
+        "[v0.5](" + "https://github.com/Wormsblink/amos_yee_bot" + ") by Worms_sg and hosted on PythonAnywhere | PM AmosYee_bot if bot is down")
 
         return s
 
@@ -102,6 +103,7 @@ def get_time_since_last_mention(r):
                 return(str(int(time_difference/60)) + " minutes")
         else:
         		return (str(time_difference) + " seconds")
+
 
 
 r = bot_login()
