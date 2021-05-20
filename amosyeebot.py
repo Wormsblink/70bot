@@ -12,7 +12,7 @@ def bot_login():
                         password = config.password,
                         client_id = config.client_id,
                         client_secret = config.client_secret,
-                        user_agent = "Worms amos yee bot v0.5")
+                        user_agent = "Worms amos yee bot v0.6")
         print("Log in successful!")
         print(datetime.now().strftime('%d %b %y %H:%M:%S'))
         return r
@@ -63,7 +63,7 @@ def prepare_reply(r):
         "Last mentioned by " + last_mention_author + " on **" + last_mention_date + "**: " +
         "[" + last_mention_title + "](" + last_mention_link + ")" + "\n\n" +
         "***\n\n" +
-        "[v0.5](" + "https://github.com/Wormsblink/amos_yee_bot" + ") by Worms_sg and hosted on PythonAnywhere | PM AmosYee_bot if bot is down")
+        "[v0.6](" + "https://github.com/Wormsblink/amos_yee_bot" + ") by Worms_sg and running on Raspberry Pi400 | PM AmosYee_bot if bot is down")
 
         return s
 
@@ -104,6 +104,22 @@ def get_time_since_last_mention(r):
         else:
         		return (str(time_difference) + " seconds")
 
+def remove_deleted_comments(r):
+
+        list = get_replied_comments()
+
+        try:
+
+                while (r.comment(list[-2]).author==None):
+                        print("deleting comment id " + list[-2])
+                        list = list[:-2]
+
+                        with open("replied_comments.txt", "w") as f:
+                                for item in list:
+                                         f.write(item + "\n")
+
+        except:
+                print("error deleting comment")
 
 
 r = bot_login()
@@ -118,16 +134,5 @@ while True:
                         run_bot(r, get_replied_comments())
 
                 except:
-
-                        list = get_replied_comments()
-                        print ("deleting comment " + list[-2])
-                        list =list [:-2]
-                        print (list)
-
-                        with open("replied_comments.txt", "w") as f:
-                                for item in list:
-                                        f.write(item + "\n")
-
-
-                        time.sleep(5)
-
+                        print ("attempting to delete comments")
+                        remove_deleted_comments(r)
