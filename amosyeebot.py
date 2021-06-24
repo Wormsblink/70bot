@@ -12,7 +12,7 @@ def bot_login():
                         password = config.password,
                         client_id = config.client_id,
                         client_secret = config.client_secret,
-                        user_agent = "Worms amos yee bot v0.6")
+                        user_agent = "Worms amos yee bot v0.7")
         print("Log in successful!")
         print(datetime.now().strftime('%d %b %y %H:%M:%S'))
         return r
