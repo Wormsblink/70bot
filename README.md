@@ -1,2 +1,2 @@
-# amos_yee_bot
-amos_yee-bot
+# 70 perent_bot
+enough 70 percent spam
